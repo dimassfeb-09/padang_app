@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="fixed w-full flex justify-center items-right text-center py-4 lg:px-4"
+    >
+      <div
+        class="p-2 bg-red-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+        role="alert"
+      >
+        <span
+          class="flex rounded-full bg-red-500 uppercase px-2 py-1 text-xs font-bold mr-3"
+          >{{category}}</span
+        >
+        <span class="font-semibold mr-2 text-left flex-auto">{{message}}</span>
+      </div>
+    </div>
+    {% endfor %} {%endif%} {% endwith %}
+
+    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
+    <section
+      class="h-screen flex justify-center gradient-form h-full bg-neutral-200 dark:bg-neutral-700"
+    >
+      <div class="container h-full p-10">
+        <div
+          class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200"
+        >
+          <div class="w-full">
+            <div
+              class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800"
+            >
+              <div class="g-0 lg:flex lg:flex-wrap">
+                <!-- Left column container-->
+                <div class="px-4 md:px-0 lg:w-6/12">
+                  <div class="md:mx-6 md:p-12">
+                    <!--Logo-->
+                    <div class="text-center">
+                      <img
+                        class="mx-auto w-48"
+                        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                        alt="logo"
+                      />
+                      <h4 class="mb-12 mt-1 pb-1 text-xl font-semibold">
+                        Warung Padang | Register
+                      </h4>
+                    </div>
+
+                    <form action="/register" method="post">
+                      <p class="mb-4">Buat akun baru anda!</p>
+
+                      <div
+                        class="relative mb-4 mt-5"
+                        data-te-input-wrapper-init
+                      >
+                        <label for="name">Nama</label>
+                        <input
+                          id="name"
+                          type="name"
+                          class="peer block border mt-2 min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                          id="name"
+                          name="name"
+                          placeholder="Nama"
+                        />
+                      </div>
+
+                      <div class="relative mb-4" data-te-input-wrapper-init>
+                        <label for="email">Email</label>
+                        <input
+                          id="email"
+                          type="email"
+                          class="peer block border mt-2 min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                          id="email"
+                          name="email"
+                          placeholder="Email"
+                        />
+                      </div>
+
+                      <div
+                        class="relative mb-4 mt-5"
+                        data-te-input-wrapper-init
+                      >
+                        <label for="password">Password</label>
+                        <input
+                          id="password"
+                          type="password"
+                          class="peer block border mt-2 min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                          id="password"
+                          name="password"
+                          placeholder="Password"
+                        />
+                      </div>
+
+                      <!--Submit button-->
+                      <div class="mb-12 pb-1 pt-1 text-center">
+                        <button
+                          class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                          type="submit"
+                          data-te-ripple-init
+                          data-te-ripple-color="light"
+                          style="
+                            background: linear-gradient(
+                              to right,
+                              #ee7724,
+                              #d8363a,
+                              #dd3675,
+                              #b44593
+                            );
+                          "
+                        >
+                          Sign Up
+                        </button>
+                      </div>
+
+                      <!--Register button-->
+                      <div class="flex items-center justify-between pb-6">
+                        <p class="mb-0 mr-2">Memiliki akun?</p>
+                        <a
+                          href="{{ url_for('login') }}"
+                          class="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          data-te-ripple-init
+                          data-te-ripple-color="light"
+                        >
+                          Login
+                        </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Right column container with background and description-->
+                <div
+                  class="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
+                  style="
+                    background: linear-gradient(
+                      to right,
+                      #ee7724,
+                      #d8363a,
+                      #dd3675,
+                      #b44593
+                    );
+                  "
+                >
+                  <div class="px-4 py-6 text-white md:mx-6 md:p-12">
+                    <h4 class="mb-6 text-xl font-semibold">
+                      "Warung Padang: Menghadirkan Lezatnya Tradisi Kuliner di
+                      Setiap Suapan"
+                    </h4>
+                    <p class="text-sm">
+                      Selamat datang di Login Masakan Padang, tempat di mana
+                      cita rasa autentik dan kelezatan khas Padang menyambut
+                      setiap langkah Anda. Nikmati pengalaman kuliner yang
+                      memikat dengan menu istimewa kami. Selamat menikmati
+                      sajian lezat dari bumi Ranah Minang!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

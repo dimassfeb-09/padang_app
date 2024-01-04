@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesan Nasi Padang</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+  <body class="bg-gray-100">
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img
+            src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+            class="h-8"
+            alt="Warung Padang Logo"
+          />
+          <span
+            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >Warung Padang</span
+          >
+        </a>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul class="flex style-none justify-center items-center gap-5">
+            <li>
+              <a
+                href="#"
+                class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                aria-current="page"
+                >Home</a
+              >
+            </li>
+            <li>
+              <div class="relative inline-block text-left">
+                <button
+                  id="dropdown-btn"
+                  type="button"
+                  class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
+                >
+                  Profile
+                </button>
+
+                <div
+                  id="dropdown-menu"
+                  class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                >
+                  <div
+                    class="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="options-menu"
+                  >
+                    <a
+                      href="#"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      role="menuitem"
+                      >Logout</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="flex flex-col justify-center items-center p-5">
+      <div
+        class="flex flex-col md:grid sm:gap-14 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {% for product in products %}
+        <div>
+          <div
+            class="card flex w-96 h-[200px] justify-center p-10 bg-white rounded-lg mb-10 sm:mb-0"
+          >
+            <div class="flex flex-col">
+              <div class="prod-title">
+                <p class="text-2xl uppercase text-gray-900 font-bold">
+                  {{product['name']}}
+                </p>
+              </div>
+              <div class="prod-img mt-5">
+                <img
+                  src="{{product['img']}}"
+                  class="h-56 object-cover object-center rounded-xl"
+                />
+              </div>
+              <div class="prod-info">
+                <p class="font-bold text-xl mt-5">IDR {{product['price']}}</p>
+                <button
+                  class="mt-5 border px-4 py-1 rounded-lg text-white"
+                  style="
+                    background: linear-gradient(
+                      to right,
+                      #ee7724,
+                      #d8363a,
+                      #dd3675,
+                      #b44593
+                    );
+                  "
+                >
+                  Add To Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#dropdown-btn").click(function () {
+          $("#dropdown-menu").toggle();
+        });
+
+        $(document).on("click", function (event) {
+          if (
+            !$(event.target).closest("#dropdown-btn, #dropdown-menu").length
+          ) {
+            $("#dropdown-menu").hide();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
