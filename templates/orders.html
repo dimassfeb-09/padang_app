@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home | Pesan Nasi Padang</title>
+    <title>Order | Pesan Nasi Padang</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
@@ -31,7 +31,7 @@
             <li>
               <a
                 href="{{url_for('home')}}"
-                class="block py-2 px-3 bg-blue-700 text-white"
+                class="block py-2 px-3"
                 aria-current="page"
                 >Home</a
               >
@@ -47,7 +47,7 @@
             <li>
               <a
                 href="{{url_for('orders')}}"
-                class="block py-2 px-3 text-black rounded"
+                class="block py-2 px-3 bg-blue-700 text-black rounded text-white"
                 aria-current="page"
                 >History Order</a
               >
@@ -112,62 +112,69 @@
       }, 2000);
     </script>
     {% endfor %} {%endif%} {% endwith %}
-
-    <div class="flex flex-col justify-center items-center p-5">
+    <div class="pt-20">
+      <h1 class="mb-10 text-center text-2xl font-bold">Order History</h1>
       <div
-        class="flex flex-col md:grid sm:gap-14 md:grid-cols-2 lg:grid-cols-3"
+        class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0"
       >
-        {% for product in products %}
-        <div>
+        <div class="rounded-lg md:w-2/3">
+          {% if orders['orders'] %} {% for order in orders['orders'] %}
           <div
-            class="card flex w-96 h-[200px] justify-center p-10 bg-white rounded-lg mb-10 sm:mb-0"
+            class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
           >
-            <div class="flex flex-col">
-              <div class="prod-title">
-                <p class="text-2xl uppercase text-gray-900 font-bold">
-                  {{product['name']}}
-                </p>
-              </div>
-              <div class="prod-img mt-5">
-                <img
-                  src="{{product['img']}}"
-                  class="h-56 object-cover object-center rounded-xl"
-                />
-              </div>
-              <div class="prod-info">
-                <p class="font-bold text-xl mt-5">IDR {{product['price']}}</p>
-
-                <form action="/add_cart" method="post">
-                  <input
-                    type="hidden"
-                    name="product_id"
-                    value="{{ product['id'] }}"
-                  />
-                  <input
-                    type="hidden"
-                    name="user_id"
-                    value="{{ users['id'] }}"
-                  />
-                  <button
-                    class="mt-5 border px-4 py-1 rounded-lg text-white"
-                    style="
-                      background: linear-gradient(
-                        to right,
-                        #ee7724,
-                        #d8363a,
-                        #dd3675,
-                        #b44593
-                      );
-                    "
-                  >
-                    Add To Cart
-                  </button>
-                </form>
+            <img draggable="false" src="{{ order['order_items'][0]["img"] }}"
+            alt="product-image" class="w-full rounded-lg sm:w-40" />
+            <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+              <div class="mt-5 sm:mt-0 flex flex-col justify-between">
+                <div>
+                  <h2 class="text-lg font-bold text-gray-900">
+                    Order ID: {{ order['order_id'] }}
+                  </h2>
+                  <span class="text-xs">{{order['created_at']}}</span>
+                  <ul>
+                    {%for order_item in order['order_items']%}
+                    <li>
+                      {{order_item["name"]}} - {{order_item["quantity"]}}x Rp
+                      {{order_item["subtotal"]}}
+                    </li>
+                    {%endfor%}
+                  </ul>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">
+                  Total: Rp {{order["total"]}}
+                </h2>
               </div>
             </div>
+            <div>
+              <a
+                href="/get_receipt/{{order['order_id']}}"
+                download="receipt_order_id_{{ order['order_id'] }}.pdf"
+                id="downloadLink"
+                class="bg-gray-300 px-2 py-1 text-white rounded text-xs flex"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/printer.png') }}"
+                  alt="Receipt"
+                  height="50"
+                  width="50"
+                />
+              </a>
+            </div>
           </div>
+          {% endfor %} {% else %}
+          <div
+            class="mt-6 h-full flex justify-center items-center rounded-lg border bg-white p-6 shadow-md md:mt-0"
+          >
+            <h1 class="mt-6 h-full rounded-lg bg-white p-6 md:mt-0 md:w-1/3">
+              <img
+                draggable="false"
+                src="{{ url_for('static', filename='images/empty.png') }}"
+                alt="Empty order"
+              />
+            </h1>
+          </div>
+          {% endif %}
         </div>
-        {% endfor %}
       </div>
     </div>
 
@@ -185,6 +192,13 @@
           }
         });
       });
+    </script>
+
+    <script>
+      function downloadReceipt() {
+        // Trigger a click event on the invisible download link
+        document.getElementById("downloadLink").click();
+      }
     </script>
   </body>
 </html>

@@ -1,3 +1,11 @@
 ./myenv
 ./.vscode
 ./.idea
+
+
+/myenv
+/.vscode
+/.idea
+
+.idea
+.vscode

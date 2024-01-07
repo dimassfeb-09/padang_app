@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home | Pesan Nasi Padang</title>
+    <title>Cart | Pesan Nasi Padang</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
     />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   </head>
-  <body class="bg-gray-100">
-    <nav class="bg-white border-gray-200">
+  <body>
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
@@ -31,7 +31,7 @@
             <li>
               <a
                 href="{{url_for('home')}}"
-                class="block py-2 px-3 bg-blue-700 text-white"
+                class="block py-2 px-3"
                 aria-current="page"
                 >Home</a
               >
@@ -39,7 +39,7 @@
             <li>
               <a
                 href="{{url_for('cart')}}"
-                class="block py-2 px-3 text-black rounded"
+                class="block py-2 px-3 bg-blue-700 text-black rounded text-white"
                 aria-current="page"
                 >Cart</a
               >
@@ -52,6 +52,7 @@
                 >History Order</a
               >
             </li>
+
             <li>
               <div class="relative inline-block text-left">
                 <button
@@ -113,61 +114,116 @@
     </script>
     {% endfor %} {%endif%} {% endwith %}
 
-    <div class="flex flex-col justify-center items-center p-5">
-      <div
-        class="flex flex-col md:grid sm:gap-14 md:grid-cols-2 lg:grid-cols-3"
-      >
-        {% for product in products %}
-        <div>
-          <div
-            class="card flex w-96 h-[200px] justify-center p-10 bg-white rounded-lg mb-10 sm:mb-0"
-          >
-            <div class="flex flex-col">
-              <div class="prod-title">
-                <p class="text-2xl uppercase text-gray-900 font-bold">
-                  {{product['name']}}
-                </p>
-              </div>
-              <div class="prod-img mt-5">
-                <img
-                  src="{{product['img']}}"
-                  class="h-56 object-cover object-center rounded-xl"
-                />
-              </div>
-              <div class="prod-info">
-                <p class="font-bold text-xl mt-5">IDR {{product['price']}}</p>
+    <div class="h-screen bg-gray-100 pt-20">
+      <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
 
-                <form action="/add_cart" method="post">
-                  <input
-                    type="hidden"
-                    name="product_id"
-                    value="{{ product['id'] }}"
-                  />
-                  <input
-                    type="hidden"
-                    name="user_id"
-                    value="{{ users['id'] }}"
-                  />
-                  <button
-                    class="mt-5 border px-4 py-1 rounded-lg text-white"
-                    style="
-                      background: linear-gradient(
-                        to right,
-                        #ee7724,
-                        #d8363a,
-                        #dd3675,
-                        #b44593
-                      );
-                    "
-                  >
-                    Add To Cart
-                  </button>
-                </form>
+      <div
+        class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0"
+      >
+        <div class="rounded-lg md:w-2/3">
+          {% if carts['cart_list'] %} {% for cart in carts['cart_list'] %}
+          <div
+            class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
+          >
+            <img
+              src="{{ cart['img'] }}"
+              alt="product-image"
+              class="w-full rounded-lg sm:w-40"
+            />
+            <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+              <div class="mt-5 sm:mt-0">
+                <h2 class="text-lg font-bold text-gray-900">
+                  {{ cart['product_name'] }}
+                </h2>
+                <span>{{ cart['quantity'] }}x</span>
+              </div>
+              <div
+                class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
+              >
+                <div class="flex items-center space-x-4">
+                  <p class="text-sm font-bold">
+                    Rp {{ cart['quantity'] * cart['price'] }}
+                  </p>
+                  <form action="/remove_cart" method="post">
+                    <input
+                      type="hidden"
+                      name="cart_id"
+                      value="{{ cart['cart_id'] }}"
+                    />
+                    <button type="submit">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
+          {% endfor %} {% else %}
+          <div
+            class="mt-6 h-full flex justify-center items-center rounded-lg border bg-white p-6 shadow-md md:mt-0"
+          >
+            <h1 class="mt-6 h-full rounded-lg bg-white p-6 md:mt-0 md:w-1/3">
+              <img
+                draggable="false"
+                src="{{ url_for('static', filename='images/empty.png') }}"
+                alt="Empty Cart"
+              />
+            </h1>
+          </div>
+          {% endif %}
         </div>
-        {% endfor %}
+        <!-- Sub total -->
+        <div
+          class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3"
+        >
+          <div class="mb-2 flex justify-between">
+            <p class="text-gray-700">Subtotal</p>
+            <p class="text-gray-700">Rp {{carts['total_price']}}</p>
+          </div>
+          <div class="mb-2 flex justify-between">
+            <p class="text-gray-700">Tax</p>
+            <p class="text-gray-700">Rp {{carts['total_price'] * 0.1}}</p>
+          </div>
+          <hr class="my-4" />
+          <div class="flex justify-between">
+            <p class="text-lg font-bold">Payment</p>
+            <div class="">
+              <p class="mb-1 text-lg font-bold">CASH</p>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <p class="text-lg font-bold">Total</p>
+            <div class="">
+              <p class="mb-1 text-lg font-bold">Rp {{carts['total_price']}}</p>
+              <p class="text-sm text-gray-700">including VAT</p>
+            </div>
+          </div>
+          <form action="/add_order" method="post">
+            <input
+              type="hidden"
+              name="order_item"
+              value="{{carts['cart_list']}}"
+            />
+            <button
+              class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+            >
+              Check out
+            </button>
+          </form>
+        </div>
       </div>
     </div>
 
