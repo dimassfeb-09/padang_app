@@ -6,7 +6,7 @@
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="bg-neutral-700">
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %}
     <div
@@ -26,9 +26,7 @@
     {% endfor %} {%endif%} {% endwith %}
 
     <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
-    <section
-      class="h-screen flex justify-center gradient-form h-full bg-neutral-200 dark:bg-neutral-700"
-    >
+    <section class="h-screen flex justify-center gradient-form h-full">
       <div class="container h-full p-10">
         <div
           class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200"

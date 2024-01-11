@@ -1,18 +1,18 @@
 import mysql.connector
 
-class DB():
-    
+
+class DB:
     def __init__(self) -> None:
-        host = "localhost"
-        user = "root"
-        password = "Aa11bb22_"
-        database = "padang_app"
+        self.host = "localhost"
+        self.user = "root"
+        self.password = ""
+        self.database = "padang_app"
+        self.port = 3307
 
         self.connection = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database,
+            port=self.port,
         )
-        
-        
